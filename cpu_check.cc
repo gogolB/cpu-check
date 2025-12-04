@@ -968,7 +968,6 @@ int main(int argc, char **argv) {
 
   if (do_hashes) {
     if (crc32c_selfcheck() != 0) {
-      crc_hw_forced_sw = true;
       LOG(WARN) << "CRC32C hardware path failed self-check; using software";
     }
     LOG(INFO) << "CRC32C implementation: " << crc32c_impl_name();
