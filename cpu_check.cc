@@ -49,6 +49,7 @@
 
 #include "avx.h"
 #include "compressor.h"
+#include "crc32c.h"
 #include "crypto.h"
 #include "fvt_controller.h"
 #include "hasher.h"
@@ -964,6 +965,14 @@ int main(int argc, char **argv) {
             << (!do_freq_hi_lo ? "" : " FreqHiLo ")
             << (do_noise ? " NOISE" : "")
             << (do_fast_string_ops ? "" : " No FastStringOps");
+
+  if (do_hashes) {
+    if (crc32c_selfcheck() != 0) {
+      crc_hw_forced_sw = true;
+      LOG(WARN) << "CRC32C hardware path failed self-check; using software";
+    }
+    LOG(INFO) << "CRC32C implementation: " << crc32c_impl_name();
+  }
 
   std::vector<std::thread *> threads;
   std::vector<Worker *> workers;

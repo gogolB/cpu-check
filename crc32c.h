@@ -20,6 +20,25 @@
 extern "C" {
 #endif
 
+typedef enum {
+  CRC32C_IMPL_AUTO = 0,
+  CRC32C_IMPL_HW,
+  CRC32C_IMPL_SW,
+} crc32c_impl;
+
+// Returns the selected implementation name: "hw" or "sw".
+const char *crc32c_impl_name(void);
+
+// Returns 1 if the CPU supports the CRC32 instruction, 0 otherwise.
+int crc32c_hw_available(void);
+
+// Forces the dispatcher to use the pure software implementation.
+void crc32c_force_software(void);
+
+// Runs a quick self-check comparing hw vs sw (if hw available). Returns 0 on
+// success; on any mismatch, forces software and returns non-zero.
+int crc32c_selfcheck(void);
+
 uint32_t crc32c(const char *s, size_t len);
 
 #ifdef __cplusplus

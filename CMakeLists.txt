@@ -72,11 +72,6 @@ add_library(utils utils.cc)
 
 
 include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag("-march=sandybridge" ARCH_SANDYBRIDGE)
-if(ARCH_SANDYBRIDGE)
-	target_compile_options(farmhash PUBLIC -march=sandybridge)
-	target_compile_options(crc32c PUBLIC -march=sandybridge)
-endif(ARCH_SANDYBRIDGE)
 
 if (BUILD_STATIC)
 	set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
